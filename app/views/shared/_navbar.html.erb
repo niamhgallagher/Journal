@@ -1,10 +1,11 @@
-<div>
- <div>
-   <%= link_to "Ruby learning journal", root_path %>
+<nav class="flex items-center justify-between bg-gray-100 px-6 py-4 shadow-md">
+  <div class="text-xl font-bold">
+    <%= link_to "🧠 BrainTrain", root_path, class: "hover:text-blue-600" %>
+  </div>
 
-   <div class="navbar-link">
-     <%= link_to "New Entry", new_entry_path %>
-   </div>
-
- </div>
-</div>
+  <div class="flex space-x-4">
+    <%= link_to "🏠 Home", root_path, class: "hover:text-blue-600" %>
+    <%= link_to "🎮 Games", braintrain_path, class: "hover:text-blue-600" %>
+    <%= link_to "🏆 Leaderboard", leaderboard_path, class: "hover:text-blue-600" %>
+  </div>
+</nav>

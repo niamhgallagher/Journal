@@ -1,0 +1,18 @@
+<h1>❓ Trivia Time!</h1>
+
+<p><%= @question %></p>
+
+<ul>
+  <% @options.each do |opt| %>
+    <li><%= opt %></li>
+  <% end %>
+</ul>
+
+<form action="<%= submit_score_path %>" method="post">
+  <%= hidden_field_tag :game, "Trivia" %>
+  <input type="text" name="name" placeholder="Your name" required>
+  <input type="hidden" name="points" value="<%= rand(5..10) %>">
+  <%= submit_tag "Submit Score" %>
+</form>
+
+<%= link_to "⬅️ Back to Menu", braintrain_path %>

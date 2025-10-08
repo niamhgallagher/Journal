@@ -1,16 +1,13 @@
-# config/routes.rb (The Fix)
 Rails.application.routes.draw do
-  
-  # 1. Define the root path
-  root 'entries#index'
-  
-  # 2. Define the Entries resource.
-  # The 'only' option was too restrictive. You need:
-  # - :show (to generate the entry_path helper for single entries/buttons)
-  # - :destroy (for the delete button to work)
-  # - :new and :create (which you already had)
-  resources :entries, only: [:show, :destroy, :create, :new]
+  root 'braintrain#welcome'
 
-  # The rest of your default routes
-  get "up" => "rails/health#show", as: :rails_health_check
+  get 'braintrain', to: 'braintrain#welcome'
+  get 'braintrain/word_scramble', to: 'braintrain#word_scramble'
+  get 'braintrain/math_quiz', to: 'braintrain#math_quiz'
+  get 'braintrain/trivia', to: 'braintrain#trivia'
+  get 'braintrain/memory_game', to: 'braintrain#memory_game'
+
+  post 'braintrain/submit_score', to: 'braintrain#submit_score', as: 'submit_score'
+
+  get 'leaderboard', to: 'leaderboard#index'
 end

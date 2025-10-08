@@ -1,0 +1,21 @@
+<div class="text-center mt-20">
+  <h2 class="text-3xl font-bold mb-4">❓ Trivia Time</h2>
+  <p class="mb-4"><%= @question %></p>
+
+  <ul class="mb-6">
+    <% @options.each do |option| %>
+      <li class="my-2"><%= option %></li>
+    <% end %>
+  </ul>
+
+  <%= form_with url: submit_score_path, local: true do |f| %>
+    <%= f.hidden_field :game, value: "Trivia" %>
+    <%= f.text_field :name, placeholder: "Your name", class: "border p-2 rounded mb-2 w-full" %>
+    <%= f.number_field :points, value: 1, hidden: true %>
+    <%= f.submit "Submit Score", class: "bg-purple-600 text-white px-4 py-2 rounded" %>
+  <% end %>
+
+  <div class="mt-6">
+    <%= link_to "⬅️ Back to Menu", root_path, class: "text-blue-600 underline" %>
+  </div>
+</div>

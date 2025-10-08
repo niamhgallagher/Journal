@@ -1,0 +1,87 @@
+<h1 class="page-title">🏆 BrainTrain Leaderboard</h1>
+<p class="subtitle">Top 10 players from all games!</p>
+
+<table class="leaderboard">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Game</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @scores.each_with_index do |score, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= score.name %></td>
+        <td><%= score.game %></td>
+        <td><%= score.points %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "⬅️ Back to Games", braintrain_path, class: "btn-secondary" %>
+
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f0f4ff, #ffffff);
+    text-align: center;
+    padding: 40px;
+  }
+
+  .page-title {
+    font-size: 2.2rem;
+    color: #2b2d42;
+    margin-bottom: 0.5em;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 2em;
+  }
+
+  .leaderboard {
+    width: 80%;
+    margin: 0 auto 40px;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .leaderboard th {
+    background-color: #4f46e5;
+    color: #fff;
+    padding: 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .leaderboard td {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .leaderboard tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    background-color: #e2e8f0;
+    color: #2b2d42;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background-color: #cbd5e1;
+  }
+</style>

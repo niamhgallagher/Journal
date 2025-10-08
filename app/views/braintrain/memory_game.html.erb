@@ -1,0 +1,176 @@
+<%= turbo_frame_tag "no_turbo", data: { turbo: false } do %>
+  <h1 class="page-title">🧩 Memory Match Game</h1>
+  <p class="subtitle">Flip the cards and find all the matching pairs!</p>
+
+  <div id="game-board" class="game-board"></div>
+
+  <p id="moves-counter">Moves: 0</p>
+  <button id="restart-btn" class="btn-primary">Restart</button>
+  <%= link_to "⬅️ Back to Games", braintrain_path, class: "btn-secondary" %>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4ff, #ffffff);
+      text-align: center;
+      padding: 40px;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      color: #2b2d42;
+      margin-bottom: 0.5em;
+    }
+
+    .subtitle {
+      color: #6c757d;
+      margin-bottom: 2em;
+    }
+
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: #4f46e5;
+      color: white;
+      font-size: 2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s ease;
+      transform-style: preserve-3d;
+    }
+
+    .flipped {
+      background-color: #ffffff;
+      color: #4f46e5;
+      transform: rotateY(180deg);
+    }
+
+    .matched {
+      background-color: #22c55e;
+      color: white;
+      cursor: default;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      margin: 10px;
+    }
+
+    .btn-primary {
+      background-color: #4f46e5;
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: #e2e8f0;
+      color: #2b2d42;
+    }
+
+    .btn-primary:hover {
+      background-color: #3730a3;
+    }
+
+    .btn-secondary:hover {
+      background-color: #cbd5e1;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('turbo:load', () => {
+      const board = document.getElementById('game-board');
+      const movesDisplay = document.getElementById('moves-counter');
+      const restartBtn = document.getElementById('restart-btn');
+
+      let cards = ['🧠','⭐','💎','⚡','🔥','🌈','🎯','🍀'];
+      cards = [...cards, ...cards]; // duplicate for pairs
+      let flippedCards = [];
+      let matchedCards = [];
+      let moves = 0;
+
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      function renderBoard() {
+        board.innerHTML = '';
+        const shuffled = shuffle(cards.slice());
+        shuffled.forEach(symbol => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.dataset.symbol = symbol;
+          card.textContent = '?';
+          board.appendChild(card);
+
+          card.addEventListener('click', () => flipCard(card));
+        });
+      }
+
+      function flipCard(card) {
+        if (flippedCards.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+        card.textContent = card.dataset.symbol;
+        card.classList.add('flipped');
+        flippedCards.push(card);
+
+        if (flippedCards.length === 2) {
+          moves++;
+          movesDisplay.textContent = `Moves: ${moves}`;
+          checkMatch();
+        }
+      }
+
+      function checkMatch() {
+        const [card1, card2] = flippedCards;
+        if (card1.dataset.symbol === card2.dataset.symbol) {
+          card1.classList.add('matched');
+          card2.classList.add('matched');
+          matchedCards.push(card1, card2);
+          flippedCards = [];
+
+          if (matchedCards.length === cards.length) {
+            setTimeout(() => {
+              alert(`🎉 You won in ${moves} moves!`);
+            }, 500);
+          }
+        } else {
+          setTimeout(() => {
+            card1.textContent = '?';
+            card2.textContent = '?';
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            flippedCards = [];
+          }, 800);
+        }
+      }
+
+      restartBtn.addEventListener('click', () => {
+        moves = 0;
+        movesDisplay.textContent = 'Moves: 0';
+        matchedCards = [];
+        flippedCards = [];
+        renderBoard();
+      });
+
+      renderBoard();
+    });
+  </script>
+<% end %>

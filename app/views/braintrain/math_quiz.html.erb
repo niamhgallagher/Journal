@@ -1,0 +1,13 @@
+<h1>➕ Math Quiz</h1>
+<p>Solve the problem:</p>
+
+<h2><%= @num1 %> + <%= @num2 %> = ?</h2>
+
+<form action="<%= submit_score_path %>" method="post">
+  <%= hidden_field_tag :game, "Math Quiz" %>
+  <input type="text" name="name" placeholder="Your name" required>
+  <input type="hidden" name="points" value="<%= rand(5..10) %>">
+  <%= submit_tag "Submit Score" %>
+</form>
+
+<%= link_to "⬅️ Back to Menu", braintrain_path %>
