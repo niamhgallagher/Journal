@@ -1,0 +1,13 @@
+<h1>🔤 Word Scramble</h1>
+<p>Unscramble the word below:</p>
+
+<h2><%= @scrambled %></h2>
+
+<form action="<%= submit_score_path %>" method="post">
+  <%= hidden_field_tag :game, "Word Scramble" %>
+  <input type="text" name="name" placeholder="Your name" required>
+  <input type="hidden" name="points" value="<%= rand(5..10) %>">
+  <%= submit_tag "Submit Score" %>
+</form>
+
+<%= link_to "⬅️ Back to Menu", braintrain_path %>
